@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashaunti ✨ | Welcome to My Sparkly World 💕</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins, Playfair Display & Great Vibes for signature girly accents -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        babypink: '#FFF0F5',
+                        softpink: '#FFC0CB',
+                        hotpink: '#FF1493',
+                        deeprose: '#FF69B4',
+                        rosegold: '#B76E79',
+                        glammagenta: '#E6007E'
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        cursive: ['Great Vibes', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Sparkly Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF0F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #FFB6C1, #FF1493);
+            border-radius: 10px;
+            border: 2px solid #FFF0F5;
+        }
+
+        /* Canvas Overlay for Particle Sparkles */
+        #sparkle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Background Theme Dynamics */
+        .theme-babypink { background: linear-gradient(135deg, #FFF0F5 0%, #FFE4E1 50%, #FFD1DC 100%); }
+        .theme-hotpink { background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 50%, #FF1493 100%); }
+        .theme-rosegold { background: linear-gradient(135deg, #FFF0F5 0%, #E6C280 50%, #B76E79 100%); }
+        .theme-bubblegum { background: linear-gradient(135deg, #E8C5E8 0%, #FFB7C5 50%, #FFA6C9 100%); }
+
+        /* Shimmer & Glow Effects */
+        .glimmer-text {
+            background: linear-gradient(90deg, #FF1493, #FFB6C1, #FFD700, #FF1493);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 5s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .pink-glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 182, 193, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(255, 20, 147, 0.15);
+        }
+
+        .pink-glass-dark {
+            background: rgba(255, 240, 245, 0.85);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 105, 180, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.2);
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(15px) rotate(-5deg); }
+        }
+        .animate-float-rev {
+            animation: float-reverse 5s ease-in-out infinite;
+        }
+
+        /* Custom Shiny Button */
+        .sparkle-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
+        }
+        .sparkle-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 25px rgba(255, 20, 147, 0.7);
+        }
+        .sparkle-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transform: rotate(30deg);
+            transition: 0.8s;
+        }
+        .sparkle-btn:hover::after {
+            left: 100%;
+        }
+
+        /* Heart Pulse */
+        @keyframes pulse-heart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        .pulse-pink {
+            animation: pulse-heart 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="theme-babypink text-gray-800 font-sans transition-all duration-700 min-h-screen relative overflow-x-hidden">
+
+    <!-- Canvas for Cursor Sparkles -->
+    <canvas id="sparkle-canvas"></canvas>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 px-4 py-3">
+        <nav class="max-w-6xl mx-auto pink-glass rounded-full px-6 py-3 flex items-center justify-between shadow-lg">
+            <a href="#" class="text-2xl md:text-3xl font-cursive font-bold text-hotpink flex items-center gap-2">
+                <span>Ashaunti</span>
+                <span class="text-xl">✨</span>
+            </a>
+
+            <!-- Nav Links -->
+            <div class="hidden md:flex items-center gap-6 font-medium text-pink-900">
+                <a href="#about" class="hover:text-hotpink transition hover:scale-105 transform">About Me</a>
+                <a href="#favorites" class="hover:text-hotpink transition hover:scale-105 transform">Favorites</a>
+                <a href="#vibe-zone" class="hover:text-hotpink transition hover:scale-105 transform">Interactive Corner</a>
+                <a href="#contact" class="hover:text-hotpink transition hover:scale-105 transform">Say Hi 💕</a>
+            </div>
+
+            <!-- Magic Sparkle Trigger Button -->
+            <button id="burst-btn" class="sparkle-btn bg-gradient-to-r from-deeprose to-hotpink text-white font-semibold px-4 py-2 rounded-full text-sm flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Sparkle Rain!</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-20 px-4 min-h-[85vh] flex items-center justify-center">
+        <!-- Floating Decor Icons -->
+        <div class="absolute top-10 left-8 md:left-24 text-4xl md:text-6xl animate-float pointer-events-none opacity-80">👑</div>
+        <div class="absolute top-20 right-10 md:right-32 text-4xl md:text-5xl animate-float-rev pointer-events-none opacity-80">🎀</div>
+        <div class="absolute bottom-12 left-12 md:left-40 text-4xl md:text-5xl animate-float-rev pointer-events-none opacity-80">💄</div>
+        <div class="absolute bottom-20 right-12 md:right-28 text-4xl md:text-6xl animate-float pointer-events-none opacity-80">💖</div>
+        <div class="absolute top-1/2 right-6 text-3xl animate-float pointer-events-none opacity-70">✨</div>
+        <div class="absolute top-1/3 left-6 text-3xl animate-float-rev pointer-events-none opacity-70">🌸</div>
+
+        <div class="max-w-4xl mx-auto text-center z-10">
+            <!-- Cute Tagline Badge -->
+            <div class="inline-flex items-center gap-2 bg-white/80 border border-pink-300 text-hotpink px-5 py-2 rounded-full font-medium text-sm md:text-base shadow-sm mb-6 animate-bounce">
+                <span>🌷 Welcome to My Glam Digital Sanctuary</span>
+            </div>
+
+            <!-- Title Header -->
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-extrabold tracking-tight mb-4">
+                Hi, I'm <span class="glimmer-text block sm:inline">Ashaunti</span>
+                <span class="inline-block pulse-pink">✨</span>
+            </h1>
+
+            <p class="text-lg md:text-2xl font-light text-pink-900 max-w-2xl mx-auto mb-8 leading-relaxed">
+                Obsessed with all things <span class="font-semibold text-hotpink underline decoration-wavy decoration-pink-300">pink</span>, 
+                sparkly accessories, glam fashion & spreading pure sunshine vibes! 🎀🛍️
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="#favorites" class="sparkle-btn bg-gradient-to-r from-hotpink to-deeprose text-white font-semibold px-8 py-3.5 rounded-full text-lg shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-heart"></i>
+                    Explore My World
+                </a>
+                <a href="#vibe-zone" class="bg-white/80 hover:bg-white text-hotpink border-2 border-pink-300 font-semibold px-8 py-3.5 rounded-full text-lg shadow-md transition-all hover:scale-105 flex items-center gap-2">
+                    <i class="fa-solid fa-sparkles"></i>
+                    Pink Vibe Zone
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-pink-950 mb-3">All About Ashaunti 💖</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-pink-300 via-hotpink to-pink-300 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <!-- Profile Card Display -->
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-hotpink via-softpink to-rosegold rounded-3xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+                        <div class="relative pink-glass-dark rounded-3xl p-6 text-center max-w-xs">
+                            <div class="w-48 h-48 mx-auto rounded-2xl overflow-hidden border-4 border-white shadow-md mb-4 bg-gradient-to-br from-pink-200 to-pink-400 flex items-center justify-center">
+                                <!-- Cute Graphic Placeholder Avatar -->
+                                <div class="text-center">
+                                    <span class="text-7xl">👸🏽</span>
+                                    <p class="font-cursive text-2xl text-hotpink mt-2">Glitz & Glam</p>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-bold text-pink-950 font-serif">Ashaunti</h3>
+                            <p class="text-sm text-hotpink font-medium">Sparkle Enthusiast & Style Lover</p>
+                            
+                            <div class="mt-4 pt-4 border-t border-pink-200 flex justify-center gap-3 text-pink-600 text-lg">
+                                <span class="bg-white/80 p-2 rounded-full shadow-sm">👑 Queen</span>
+                                <span class="bg-white/80 p-2 rounded-full shadow-sm">💖 Pink Lover</span>
+                                <span class="bg-white/80 p-2 rounded-full shadow-sm">✨ Dreamer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bio Text & Fun Facts Grid -->
+                <div class="md:col-span-7 space-y-6">
+                    <div class="pink-glass rounded-3xl p-6 md:p-8 shadow-sm">
+                        <h3 class="text-2xl font-semibold text-pink-900 mb-3 flex items-center gap-2">
+                            <span>Welcome to My Space!</span>
+                            <span class="text-xl">🌸</span>
+                        </h3>
+                        <p class="text-pink-950 leading-relaxed mb-4">
+                            Hi there! I'm Ashaunti, a girl who believes life is way too short for boring colors. 
+                            My universe revolves around soft pastel aesthetics, glittering highlighters, cute outfits, 
+                            and spreading positivity everywhere I go! 
+                        </p>
+                        <p class="text-pink-950 leading-relaxed">
+                            Whether I'm curating the ultimate pink playlist, experimenting with beauty trends, 
+                            or sipping iced boba with extra sparkles, I bring my signature glam energy to everything!
+                        </p>
+                    </div>
+
+                    <!-- Fun Facts 2x2 Grid -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="pink-glass p-4 rounded-2xl border-l-4 border-hotpink hover:translate-x-1 transition">
+                            <div class="text-hotpink font-bold text-sm uppercase tracking-wider">Favorite Color</div>
+                            <div class="text-gray-900 font-semibold text-base md:text-lg flex items-center gap-2 mt-1">
+                                <span>Pink (All Shades!)</span> 💗
+                            </div>
+                        </div>
+
+                        <div class="pink-glass p-4 rounded-2xl border-l-4 border-deeprose hover:translate-x-1 transition">
+                            <div class="text-deeprose font-bold text-sm uppercase tracking-wider">Current Vibe</div>
+                            <div class="text-gray-900 font-semibold text-base md:text-lg flex items-center gap-2 mt-1">
+                                <span>Glitz, Glam & Gold</span> ✨
+                            </div>
+                        </div>
+
+                        <div class="pink-glass p-4 rounded-2xl border-l-4 border-rosegold hover:translate-x-1 transition">
+                            <div class="text-rosegold font-bold text-sm uppercase tracking-wider">Passions</div>
+                            <div class="text-gray-900 font-semibold text-base md:text-lg flex items-center gap-2 mt-1">
+                                <span>Fashion & Beauty</span> 💄
+                            </div>
+                        </div>
+
+                        <div class="pink-glass p-4 rounded-2xl border-l-4 border-glammagenta hover:translate-x-1 transition">
+                            <div class="text-glammagenta font-bold text-sm uppercase tracking-wider">Superpower</div>
+                            <div class="text-gray-900 font-semibold text-base md:text-lg flex items-center gap-2 mt-1">
+                                <span>Making Stuff Shine</span> 💎
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Favorites & Moodboard Section -->
+    <section id="favorites" class="py-16 px-4 bg-white/30 backdrop-blur-sm">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-14">
+                <span class="text-hotpink font-semibold uppercase tracking-widest text-xs md:text-sm">My Aesthetic Essentials</span>
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-pink-950 mt-1">Ashaunti's Favorite Things 🛍️</h2>
+                <p class="text-pink-800 mt-2">A tiny collection of everything that brings joy to my day!</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1: Pink Fashion -->
+                <div class="pink-glass rounded-3xl p-6 text-center hover:-translate-y-2 transition duration-300 shadow-md group">
+                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 group-hover:scale-110 transition text-hotpink shadow-inner">
+                        👗
+                    </div>
+                    <h3 class="text-xl font-bold text-pink-900 mb-2 font-serif">Pink Outfits</h3>
+                    <p class="text-sm text-pink-800 leading-relaxed">
+                        From oversized baby pink hoodies to cute sparkly satin dresses and platform heels!
+                    </p>
+                </div>
+
+                <!-- Card 2: Glitter & Jewelry -->
+                <div class="pink-glass rounded-3xl p-6 text-center hover:-translate-y-2 transition duration-300 shadow-md group">
+                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 group-hover:scale-110 transition text-hotpink shadow-inner">
+                        💎
+                    </div>
+                    <h3 class="text-xl font-bold text-pink-900 mb-2 font-serif">Bling Accessories</h3>
+                    <p class="text-sm text-pink-800 leading-relaxed">
+                        Chunky rhinestone jewelry, sparkly phone cases, and glitter body shimmer!
+                    </p>
+                </div>
+
+                <!-- Card 3: Sweet Treats -->
+                <div class="pink-glass rounded-3xl p-6 text-center hover:-translate-y-2 transition duration-300 shadow-md group">
+                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 group-hover:scale-110 transition text-hotpink shadow-inner">
+                        🧋
+                    </div>
+                    <h3 class="text-xl font-bold text-pink-900 mb-2 font-serif">Sweet Treats</h3>
+                    <p class="text-sm text-pink-800 leading-relaxed">
+                        Strawberry iced boba, pink macarons, iced vanilla lattes & glazed donuts!
+                    </p>
+                </div>
+
+                <!-- Card 4: Beauty & Skincare -->
+                <div class="pink-glass rounded-3xl p-6 text-center hover:-translate-y-2 transition duration-300 shadow-md group">
+                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 group-hover:scale-110 transition text-hotpink shadow-inner">
+                        💄
+                    </div>
+                    <h3 class="text-xl font-bold text-pink-900 mb-2 font-serif">Glam Makeup</h3>
+                    <p class="text-sm text-pink-800 leading-relaxed">
+                        Hydrating lip glosses, rosy pink blushes, and soft romantic eyeshadow palettes!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Vibe Corner -->
+    <section id="vibe-zone" class="py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-pink-950">Ashaunti's Interactive Hub ✨</h2>
+                <p class="text-pink-800 mt-2">Customize the vibe & generate your daily sparkle boost!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- 1. Theme Color Switcher Widget -->
+                <div class="pink-glass rounded-3xl p-6 shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-4">
+                            <i class="fa-solid fa-palette text-hotpink text-2xl"></i>
+                            <h3 class="text-xl font-bold text-pink-900">Pink Theme Switcher</h3>
+                        </div>
+                        <p class="text-sm text-pink-800 mb-6">
+                            Choose a background aesthetic theme to change the page atmosphere:
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="setTheme('babypink')" class="p-3 rounded-2xl bg-pink-100 border-2 border-pink-300 hover:border-hotpink text-xs font-bold text-pink-900 flex items-center gap-2 transition shadow-sm">
+                                <span class="w-4 h-4 rounded-full bg-[#FFF0F5] border border-pink-400"></span>
+                                Baby Pink
+                            </button>
+                            <button onclick="setTheme('hotpink')" class="p-3 rounded-2xl bg-pink-200 border-2 border-pink-300 hover:border-hotpink text-xs font-bold text-pink-900 flex items-center gap-2 transition shadow-sm">
+                                <span class="w-4 h-4 rounded-full bg-[#FF1493]"></span>
+                                Hot Pink Glam
+                            </button>
+                            <button onclick="setTheme('rosegold')" class="p-3 rounded-2xl bg-pink-100 border-2 border-pink-300 hover:border-hotpink text-xs font-bold text-pink-900 flex items-center gap-2 transition shadow-sm">
+                                <span class="w-4 h-4 rounded-full bg-[#B76E79]"></span>
+                                Rose Gold
+                            </button>
+                            <button onclick="setTheme('bubblegum')" class="p-3 rounded-2xl bg-pink-100 border-2 border-pink-300 hover:border-hotpink text-xs font-bold text-pink-900 flex items-center gap-2 transition shadow-sm">
+                                <span class="w-4 h-4 rounded-full bg-[#FFA6C9]"></span>
+                                Bubblegum Dream
+                            </button>
+                        </div>
+                    </div>
+                    <p id="theme-status" class="text-xs text-center text-pink-600 mt-6 font-medium">Active Vibe: Soft Baby Pink 💕</p>
+                </div>
+
+                <!-- 2. Sparkly Compliment Generator -->
+                <div class="pink-glass rounded-3xl p-6 shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-4">
+                            <i class="fa-solid fa-sparkles text-hotpink text-2xl"></i>
+                            <h3 class="text-xl font-bold text-pink-900">Daily Sparkle Generator</h3>
+                        </div>
+                        <p class="text-sm text-pink-800 mb-6">
+                            Need a little glamour booster? Click below to reveal your daily quote:
+                        </p>
+
+                        <!-- Quote Display Area -->
+                        <div class="bg-white/90 border border-pink-200 rounded-2xl p-6 text-center min-h-[110px] flex items-center justify-center shadow-inner">
+                            <p id="quote-display" class="text-base md:text-lg font-serif italic text-hotpink font-semibold">
+                                "Pink isn't just a color, it's an attitude! 💕"
+                            </p>
+                        </div>
+                    </div>
+
+                    <button onclick="generateQuote()" class="sparkle-btn mt-6 w-full bg-gradient-to-r from-hotpink to-deeprose text-white font-semibold py-3 rounded-2xl text-sm shadow-md">
+                        ✨ Generate New Sparkle Quote ✨
+                    </button>
+                </div>
+
+                <!-- 3. Mock Music Player Widget (Spanning 2 columns on larger screens) -->
+                <div class="md:col-span-2 pink-glass rounded-3xl p-6 shadow-md">
+                    <div class="flex flex-col sm:flex-row items-center gap-6">
+                        <!-- Vinyl/Cover Art -->
+                        <div class="relative group">
+                            <div id="album-art" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-hotpink via-softpink to-yellow-200 flex items-center justify-center text-4xl shadow-md border-2 border-white transition transform group-hover:scale-105">
+                                🎵
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 bg-white p-1.5 rounded-full shadow text-xs">
+                                💖
+                            </div>
+                        </div>
+
+                        <!-- Player Controls & Waveform -->
+                        <div class="flex-1 w-full text-center sm:text-left">
+                            <span class="text-xs font-bold text-hotpink uppercase tracking-widest">Now Playing in Ashaunti's Headphones</span>
+                            <h4 id="song-title" class="text-lg font-bold text-pink-950 mt-1 font-serif">Pink Dreams & Sweet Harmonies</h4>
+                            <p id="song-artist" class="text-xs text-pink-700">Ashaunti's Aesthetic Playlist • Vol. 1</p>
+
+                            <!-- Glowing Audio Wave Visualizer Bars -->
+                            <div class="flex items-center justify-center sm:justify-start gap-1 my-3 h-8">
+                                <div class="wave-bar w-1.5 bg-hotpink rounded-full h-3 animate-pulse"></div>
+                                <div class="wave-bar w-1.5 bg-deeprose rounded-full h-6 animate-pulse" style="animation-delay: 0.2s"></div>
+                                <div class="wave-bar w-1.5 bg-softpink rounded-full h-4 animate-pulse" style="animation-delay: 0.4s"></div>
+                                <div class="wave-bar w-1.5 bg-hotpink rounded-full h-7 animate-pulse" style="animation-delay: 0.1s"></div>
+                                <div class="wave-bar w-1.5 bg-deeprose rounded-full h-5 animate-pulse" style="animation-delay: 0.3s"></div>
+                                <div class="wave-bar w-1.5 bg-pink-300 rounded-full h-2 animate-pulse" style="animation-delay: 0.5s"></div>
+                            </div>
+
+                            <!-- Mock Buttons -->
+                            <div class="flex items-center justify-center sm:justify-start gap-4 text-pink-800">
+                                <button onclick="prevSong()" class="hover:text-hotpink text-lg transition"><i class="fa-solid fa-backward-step"></i></button>
+                                <button id="play-btn" onclick="togglePlay()" class="w-10 h-10 rounded-full bg-hotpink text-white flex items-center justify-center shadow-md hover:scale-110 transition">
+                                    <i id="play-icon" class="fa-solid fa-pause"></i>
+                                </button>
+                                <button onclick="nextSong()" class="hover:text-hotpink text-lg transition"><i class="fa-solid fa-forward-step"></i></button>
+                                <span class="text-xs text-pink-600 font-medium ml-2" id="music-time">1:24 / 3:45</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Let's Connect Section -->
+    <section id="contact" class="py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="pink-glass rounded-3xl p-8 md:p-12 shadow-xl border-2 border-pink-200">
+                <div class="text-center mb-10">
+                    <span class="text-4xl inline-block mb-2">💌</span>
+                    <h2 class="text-3xl md:text-5xl font-serif font-bold text-pink-950">Let's Connect!</h2>
+                    <p class="text-pink-800 mt-2">Send me a message, a sweet note, or just say hi!</p>
+                </div>
+
+                <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-pink-900 mb-2">Your Name 💕</label>
+                            <input type="text" required placeholder="Cutie Pie" class="w-full px-4 py-3 rounded-2xl bg-white/80 border border-pink-300 focus:outline-none focus:ring-2 focus:ring-hotpink text-pink-950 placeholder-pink-300 shadow-sm transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-pink-900 mb-2">Your Email 📧</label>
+                            <input type="email" required placeholder="hello@sparkle.com" class="w-full px-4 py-3 rounded-2xl bg-white/80 border border-pink-300 focus:outline-none focus:ring-2 focus:ring-hotpink text-pink-950 placeholder-pink-300 shadow-sm transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-pink-900 mb-2">Your Message ✨</label>
+                        <textarea rows="4" required placeholder="Write something sweet here..." class="w-full px-4 py-3 rounded-2xl bg-white/80 border border-pink-300 focus:outline-none focus:ring-2 focus:ring-hotpink text-pink-950 placeholder-pink-300 shadow-sm transition"></textarea>
+                    </div>
+
+                    <button type="submit" class="sparkle-btn w-full bg-gradient-to-r from-hotpink via-deeprose to-hotpink text-white font-bold py-4 rounded-2xl text-lg shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Send Sparkly Note!
+                    </button>
+                </form>
+
+                <!-- Social Media Badges -->
+                <div class="mt-12 pt-8 border-t border-pink-200 text-center">
+                    <p class="text-sm font-semibold text-pink-900 mb-4">Follow My Glam Journey Elsewhere 💕</p>
+                    <div class="flex justify-center gap-4 flex-wrap">
+                        <a href="#" class="bg-white/80 hover:bg-hotpink hover:text-white text-pink-700 px-4 py-2 rounded-full font-medium text-sm shadow-sm transition transform hover:-translate-y-1 flex items-center gap-2 border border-pink-200">
+                            <i class="fa-brands fa-instagram text-base"></i> Instagram
+                        </a>
+                        <a href="#" class="bg-white/80 hover:bg-hotpink hover:text-white text-pink-700 px-4 py-2 rounded-full font-medium text-sm shadow-sm transition transform hover:-translate-y-1 flex items-center gap-2 border border-pink-200">
+                            <i class="fa-brands fa-tiktok text-base"></i> TikTok
+                        </a>
+                        <a href="#" class="bg-white/80 hover:bg-hotpink hover:text-white text-pink-700 px-4 py-2 rounded-full font-medium text-sm shadow-sm transition transform hover:-translate-y-1 flex items-center gap-2 border border-pink-200">
+                            <i class="fa-brands fa-pinterest text-base"></i> Pinterest
+                        </a>
+                        <a href="#" class="bg-white/80 hover:bg-hotpink hover:text-white text-pink-700 px-4 py-2 rounded-full font-medium text-sm shadow-sm transition transform hover:-translate-y-1 flex items-center gap-2 border border-pink-200">
+                            <i class="fa-brands fa-youtube text-base"></i> YouTube
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Cute Confirmation Modal Popup -->
+    <div id="success-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="pink-glass-dark rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border-4 border-white transform scale-95 transition-transform duration-300" id="modal-content">
+            <div class="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 border-2 border-hotpink animate-bounce">
+                💖
+            </div>
+            <h3 class="text-2xl font-serif font-bold text-pink-950 mb-2">Message Sent!</h3>
+            <p class="text-sm text-pink-800 mb-6">
+                Thank you so much! Ashaunti received your sweet note and will get back to you with lots of sparkles! ✨
+            </p>
+            <button onclick="closeModal()" class="sparkle-btn w-full bg-hotpink text-white font-semibold py-3 rounded-2xl text-sm">
+                Yay, Awesome! 💕
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-sm text-pink-800 font-medium">
+        <p>Made with 💖 & endless sparkles for <span class="font-bold text-hotpink">Ashaunti</span></p>
+        <p class="text-xs text-pink-600 mt-1">© 2026 Ashaunti. All rights reserved. Keep shining brighter than ever! ✨</p>
+    </footer>
+
+    <script>
+        /* --- 1. SPARKLE CURSOR TRAIL & PARTICLES --- */
+        const canvas = document.getElementById('sparkle-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        class Sparkle {
+            constructor(x, y, color = null) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 6 + 2;
+                this.speedX = (Math.random() - 0.5) * 3;
+                this.speedY = (Math.random() - 0.5) * 3 - 1;
+                this.colors = ['#FF1493', '#FF69B4', '#FFB6C1', '#FFD700', '#FFFFFF'];
+                this.color = color || this.colors[Math.floor(Math.random() * this.colors.length)];
+                this.alpha = 1;
+                this.decay = Math.random() * 0.02 + 0.015;
+                this.rotation = Math.random() * Math.PI;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.alpha -= this.decay;
+                this.rotation += 0.1;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.fillStyle = this.color;
+                
+                // Draw 4-point star shape
+                ctx.beginPath();
+                for (let i = 0; i < 4; i++) {
+                    ctx.lineTo(Math.cos((i * Math.PI) / 2) * this.size, Math.sin((i * Math.PI) / 2) * this.size);
+                    ctx.lineTo(Math.cos((i * Math.PI) / 2 + Math.PI / 4) * (this.size / 2), Math.sin((i * Math.PI) / 2 + Math.PI / 4) * (this.size / 2));
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        let sparkles = [];
+
+        // Spawn sparkles on mouse move
+        window.addEventListener('mousemove', (e) => {
+            for (let i = 0; i < 2; i++) {
+                sparkles.push(new Sparkle(e.clientX, e.clientY));
+            }
+        });
+
+        // Touch support for mobile devices
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                for (let i = 0; i < 2; i++) {
+                    sparkles.push(new Sparkle(e.touches[0].clientX, e.touches[0].clientY));
+                }
+            }
+        });
+
+        // Burst button trigger
+        document.getElementById('burst-btn').addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 80; i++) {
+                sparkles.push(new Sparkle(
+                    centerX + (Math.random() - 0.5) * 200, 
+                    centerY + (Math.random() - 0.5) * 200
+                ));
+            }
+        });
+
+        function animateSparkles() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < sparkles.length; i++) {
+                sparkles[i].update();
+                sparkles[i].draw();
+                if (sparkles[i].alpha <= 0) {
+                    sparkles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateSparkles);
+        }
+        animateSparkles();
+
+
+        /* --- 2. PINK THEME SWITCHER --- */
+        function setTheme(themeName) {
+            document.body.className = `theme-${themeName} text-gray-800 font-sans transition-all duration-700 min-h-screen relative overflow-x-hidden`;
+            
+            const statusMap = {
+                'babypink': 'Soft Baby Pink 💕',
+                'hotpink': 'Hot Pink Glam 💖',
+                'rosegold': 'Elegant Rose Gold ✨',
+                'bubblegum': 'Bubblegum Dream 🍬'
+            };
+            document.getElementById('theme-status').innerText = `Active Vibe: ${statusMap[themeName]}`;
+        }
+
+
+        /* --- 3. QUOTE / COMPLIMENT GENERATOR --- */
+        const quotes = [
+            "Pink isn't just a color, it's an attitude! 💕",
+            "Keep shining bright babe, the world needs your sparkle! ✨",
+            "Glitter is always an option! 💎",
+            "Be a flamingo in a flock of pigeons! 🦩",
+            "Too much pink? There's no such thing! 💖",
+            "Always wear your invisible crown, queen! 👑",
+            "Sparkle today, slay tomorrow! 💄",
+            "Elegance, charm & a touch of hot pink magic! 🌸"
+        ];
+
+        function generateQuote() {
+            const quoteDisplay = document.getElementById('quote-display');
+            quoteDisplay.style.opacity = '0';
+            
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * quotes.length);
+                quoteDisplay.innerText = quotes[randomIndex];
+                quoteDisplay.style.opacity = '1';
+            }, 200);
+        }
+
+
+        /* --- 4. MOCK AUDIO PLAYER INTERACTION --- */
+        const playlist = [
+            { title: "Pink Dreams & Sweet Harmonies", artist: "Ashaunti's Playlist • Vol. 1", emoji: "🎵" },
+            { title: "Glitter & Gloss Vibes", artist: "Ashaunti's Playlist • Vol. 2", emoji: "✨" },
+            { title: "Strawberry Milkshake Beats", artist: "Ashaunti's Playlist • Vol. 3", emoji: "🧋" }
+        ];
+        let currentSong = 0;
+        let isPlaying = true;
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            const playIcon = document.getElementById('play-icon');
+            const waveBars = document.querySelectorAll('.wave-bar');
+
+            if (isPlaying) {
+                playIcon.className = "fa-solid fa-pause";
+                waveBars.forEach(bar => bar.style.animationPlayState = 'running');
+            } else {
+                playIcon.className = "fa-solid fa-play";
+                waveBars.forEach(bar => bar.style.animationPlayState = 'paused');
+            }
+        }
+
+        function updateSong() {
+            document.getElementById('song-title').innerText = playlist[currentSong].title;
+            document.getElementById('song-artist').innerText = playlist[currentSong].artist;
+            document.getElementById('album-art').innerText = playlist[currentSong].emoji;
+        }
+
+        function nextSong() {
+            currentSong = (currentSong + 1) % playlist.length;
+            updateSong();
+        }
+
+        function prevSong() {
+            currentSong = (currentSong - 1 + playlist.length) % playlist.length;
+            updateSong();
+        }
+
+
+        /* --- 5. CONTACT FORM & MODAL --- */
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const modal = document.getElementById('success-modal');
+            const content = document.getElementById('modal-content');
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+
+            event.target.reset();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('success-modal');
+            const content = document.getElementById('modal-content');
+
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
